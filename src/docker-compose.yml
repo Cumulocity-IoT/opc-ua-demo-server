@@ -1,0 +1,7 @@
+version: "3.9"
+services:
+  opcserver:
+    build:
+      context: ./opcserver
+    ports:
+      - "4840:4840"
