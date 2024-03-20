@@ -1,7 +1,13 @@
-version: "3.9"
+version: "3.2"
 services:
   opcserver:
-    build:
-      context: ./opcserver
+    container_name: opcserver
+    image: ghcr.io/mstoffel-sag/opc-ua-demo-server:latest
+    restart: always
     ports:
       - "4840:4840"
+    networks:
+      backend:
+networks:
+  backend:
+    name: opc-ua-gateway_backend

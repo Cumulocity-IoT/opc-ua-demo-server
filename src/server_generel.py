@@ -8,15 +8,15 @@ import random
 
 from opcua import ua, Server
 
-LEVEL_0 = "Power Site Frankfurt East"     # "Maschinenbau"
-DEVICE_0 = "Transformer Type III"         # "Maschinen Type III"
+LEVEL_0 = "Power Site East"     # "Machine"
+DEVICE_0 = "Transformer Type III"         # "Machine Type III"
 DEVICE_1 = "Controller"                   # "Drives"
 DEVICE_2 = "LV Winding"                   # "Spindel"
 DEVICE_3 = "Radiator"                     # "Wechseltisch"
 DEVICE_4 = "Conservator"                  # "Controller"
-LEVEL_1 = "Site"                          # "Werk"
-LEVEL_2 = "Power Station"                 # "Halle"
-LEVEL_3 = "Power Sub-Station"             # "Linie"
+LEVEL_1 = "Site"                          # "Site"
+LEVEL_2 = "Power Station"                 # "Hall"
+LEVEL_3 = "Power Sub-Station"             # "Line"
 LEVEL_4 = "Transformer"                   # "Machine 0815"
 LEVEL_4 = "Transformer"                   # "Machine 0815"
 
