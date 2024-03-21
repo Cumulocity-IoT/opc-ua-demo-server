@@ -21,4 +21,4 @@ RUN pip install opcua
 ### 3. Start server
 EXPOSE 4840    
 ADD server_generel.py /
-CMD ["python3", "server_generel.py"]
+CMD ["python3", "server.py"]
