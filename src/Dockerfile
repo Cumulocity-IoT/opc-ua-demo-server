@@ -16,7 +16,7 @@ LABEL org.opencontainers.image.authors="Marco Stoffel"
 LABEL org.opencontainers.image.licenses="Apache 2.0"
 
 ### 2. Install opcua
-RUN pip install opcua
+RUN pip install asyncua
 
 ### 3. Start server
 EXPOSE 4840    
