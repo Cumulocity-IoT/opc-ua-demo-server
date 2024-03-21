@@ -20,5 +20,5 @@ RUN pip install asyncua
 
 ### 3. Start server
 EXPOSE 4840    
-ADD server_generel.py /
+ADD server.py /
 CMD ["python3", "server.py"]
