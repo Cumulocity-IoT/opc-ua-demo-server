@@ -139,7 +139,7 @@ async def main():
         await server.write_attribute_value(myvar.nodeid, ua.DataValue(0.9))
 
         while True:
-            await asyncio.sleep(0.1)
+            await asyncio.sleep(1.0)
             await server.write_attribute_value(
                 myvar.nodeid, ua.DataValue(sin(time.time()))
             )
