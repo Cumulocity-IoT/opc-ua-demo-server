@@ -10,7 +10,8 @@ jobs:
   # before publishing the virtual packages (which are architecture agnostic)
   publish-containers:
     name: Publish Containers
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
+    needs: [publish-arm64, publish-amd64]
     env:
       BUILDX_NO_DEFAULT_ATTESTATIONS: 1
     permissions:
