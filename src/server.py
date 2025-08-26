@@ -1,6 +1,7 @@
 import asyncio
 import copy
 import logging
+import random
 from datetime import datetime
 import time
 from math import sin
@@ -106,6 +107,26 @@ async def main():
         [ua.VariantType.Int64, ua.VariantType.Int64],
         [ua.VariantType.Int64],
     )
+    # Defining pump
+    pump = await server.nodes.objects.add_object(idx, "Pump")
+    # operating Level of pump in %
+    performance = await pump.add_variable(idx, "operatingLevel", 100)
+    await performance.set_writable()
+    # statuses are: Idle, Running, Alarm
+    status = await pump.add_variable(idx, "status", "Idle")
+    await status.set_writable()
+    # flow in l/s
+    flow = await pump.add_variable(idx, "flow", 5.0)
+    await flow.set_writable()
+    # Alarms could be: "PowerFailure", "Leakage", "FilterClogged"
+    alarm = await pump.add_variable(idx, "activeAlarm", "None")
+    await alarm.set_writable()
+    # Current Energy consumption in W
+    power = await pump.add_variable(idx, "power", 450)
+    await power.set_writable()
+    # Run hours in h
+    run_hours = await pump.add_variable(idx, "runHours", 0)
+    await run_hours.set_writable()
 
     # import some nodes from xml
     #await server.import_xml("custom_nodes.xml")
@@ -137,12 +158,39 @@ async def main():
         # write_attribute_value is a server side method which is faster than using write_value
         # but than methods has less checks
         await server.write_attribute_value(myvar.nodeid, ua.DataValue(0.9))
-
+        # Run endless loop to simulate changes in the server
+        runHours = 0
         while True:
             await asyncio.sleep(1.0)
+            operatingLevel = random.randint(0,100)
+            statusValue = random.choice(["Idle", "Running", "Alarm"])
+            flowValue = random.uniform(0,10.0)
+            powerValue = operatingLevel * random.randint(10,20) + 100 if operatingLevel != 0 else 0
+            if(statusValue == "Alarm"):
+                alarmValue = random.choice(["PowerFailure", "Leakage", "FilterClogged"])
+            else:
+                alarmValue = "None"
+
             await server.write_attribute_value(
                 myvar.nodeid, ua.DataValue(sin(time.time()))
             )
+            await server.write_attribute_value(
+                power.nodeid, ua.DataValue(powerValue)
+            )
+            await server.write_attribute_value(
+                status.nodeid, ua.DataValue(statusValue)
+            )
+            await server.write_attribute_value(
+                flow.nodeid, ua.DataValue(flowValue)
+            )
+            await server.write_attribute_value(
+                run_hours.nodeid, ua.DataValue(++runHours)
+            )
+            await server.write_attribute_value(
+                alarm.nodeid, ua.DataValue(alarmValue)
+            )
+
+
 
 
 if __name__ == "__main__":
