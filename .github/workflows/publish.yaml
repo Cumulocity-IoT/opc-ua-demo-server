@@ -39,7 +39,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            ghcr.io/cumulocity-iot/opc-ua-demo-server
+            switschel/opc-ua-demo-server
           tags: |
             type=raw,value={{tag}}
             type=raw,value=latest
