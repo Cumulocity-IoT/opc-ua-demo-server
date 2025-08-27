@@ -113,13 +113,13 @@ async def main():
     performance = await pump.add_variable(idx, "operatingLevel", 100)
     await performance.set_writable()
     # statuses are: Idle, Running, Alarm
-    status = await pump.add_variable(idx, "status", "Idle")
+    status = await pump.add_variable(idx, "status", "Idle", ua.VariantType.String)
     await status.set_writable()
     # flow in l/s
     flow = await pump.add_variable(idx, "flow", 5.0)
     await flow.set_writable()
     # Alarms could be: "PowerFailure", "Leakage", "FilterClogged"
-    alarm = await pump.add_variable(idx, "activeAlarm", "None")
+    alarm = await pump.add_variable(idx, "activeAlarm", 0)
     await alarm.set_writable()
     # Current Energy consumption in W
     power = await pump.add_variable(idx, "power", 450)
@@ -168,9 +168,10 @@ async def main():
             powerValue = operatingLevelValue * random.randint(10,20) + 100 if operatingLevelValue != 0 else 0
             runHoursValue+=1
             if(statusValue == "Alarm"):
-                alarmValue = random.choice(["PowerFailure", "Leakage", "FilterClogged"])
+                #alarmValue = random.choice(["PowerFailure", "Leakage", "FilterClogged"])
+                alarmValue = 1
             else:
-                alarmValue = "None"
+                alarmValue = 0
 
             await server.write_attribute_value(
                 myvar.nodeid, ua.DataValue(sin(time.time()))
