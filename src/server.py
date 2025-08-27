@@ -159,13 +159,14 @@ async def main():
         # but than methods has less checks
         await server.write_attribute_value(myvar.nodeid, ua.DataValue(0.9))
         # Run endless loop to simulate changes in the server
-        runHours = 0
+        runHoursValue = 0
         while True:
             await asyncio.sleep(1.0)
-            operatingLevel = random.randint(0,100)
+            operatingLevelValue = random.randint(0,100)
             statusValue = random.choice(["Idle", "Running", "Alarm"])
             flowValue = random.uniform(0,10.0)
-            powerValue = operatingLevel * random.randint(10,20) + 100 if operatingLevel != 0 else 0
+            powerValue = operatingLevelValue * random.randint(10,20) + 100 if operatingLevelValue != 0 else 0
+            runHoursValue+=1
             if(statusValue == "Alarm"):
                 alarmValue = random.choice(["PowerFailure", "Leakage", "FilterClogged"])
             else:
@@ -184,10 +185,13 @@ async def main():
                 flow.nodeid, ua.DataValue(flowValue)
             )
             await server.write_attribute_value(
-                run_hours.nodeid, ua.DataValue(++runHours)
+                run_hours.nodeid, ua.DataValue(runHoursValue)
             )
             await server.write_attribute_value(
                 alarm.nodeid, ua.DataValue(alarmValue)
+            )
+            await server.write_attribute_value(
+                performance.nodeid, ua.DataValue(operatingLevelValue)
             )
 
 
